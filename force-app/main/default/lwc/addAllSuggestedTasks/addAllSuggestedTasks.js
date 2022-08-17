@@ -6,7 +6,7 @@ import Name from '@salesforce/schema/Training_Task__c.Name';
 import retriveTasks from '@salesforce/apex/TaskSelectedController.retriveTasks';
 import { refreshApex } from '@salesforce/apex';
 import fetchAssignedPrograms from '@salesforce/apex/TaskSelectedController.fetchAssignedPrograms';
-import deletedSelectedTasks from '@salesforce/apex/TaskSelectedController.deletedSelectedTasks';
+import deleteSelectedTasks from '@salesforce/apex/TaskSelectedController.deleteSelectedTasks';
 
 const columns = [
     { label: 'Tasks Name', fieldName: 'Name' },
@@ -18,6 +18,7 @@ export default class AddAllSuggestedTasks extends LightningElement {
    @track columns = columns;
    @track errorMsg = '';
    @track searchData;
+   data;
    
    @api recordId;
 
@@ -26,6 +27,8 @@ export default class AddAllSuggestedTasks extends LightningElement {
     tasks;
     selectedTasks = [];
     strSearchTaskName ='';
+    selectedRecords = [];
+
     
 
     //relatedTasksResult;
@@ -136,10 +139,10 @@ export default class AddAllSuggestedTasks extends LightningElement {
         }) 
     }
 
-    @wire(fetchAssignedPrograms)
+    @wire(fetchAssignedPrograms,{projectId: '$recordId'})
     programs(results) {
         this.refreshTable = results;
-        console.log(results);
+        //console.log(this.data);
         if (results.data) {
             this.data = results.data;
             this.error = undefined;
@@ -149,25 +152,28 @@ export default class AddAllSuggestedTasks extends LightningElement {
         }
     }
     getSelectedRecords(event) {
-        const selectedRows = event.detail.selectedRows;
-        this.recordsCount = event.detail.selectedRows.length;
-        this.selectedRecords=new Array();
-        for (let i = 0; i < selectedRows.length; i++) {
-            this.selectedRecords.push(selectedRows[i]);
-        }
+
+        let selectedRows = event.detail.selectedRows;
+        this.selectedRecords = selectedRows;
+
+        // this.recordsCount = event.detail.selectedRows.length;
+        // this.selectedRecords=new Array();
+        // for (let i = 0; i < selectedRows.length; i++) {
+        //     this.selectedRecords.push(selectedRows[i]);
+        // }
     }
     deleteRecords() {
-        if (this.selectedRecords) {
+        
             this.buttonLabel = 'Processing....';
             this.isTrue = true;
-            deletedSelectedTasks({assignedPrograms: this.selectedRecords }).then(result => {
+            deleteSelectedTasks({assignedPrograms: this.selectedRecords }).then(result => {
                 window.console.log('result ====> ' + result);
                 this.buttonLabel = 'Delete Records';
                 this.isTrue = false;
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success!!',
-                        message: this.recordsCount + ' records are deleted.',
+                        message: ' records are deleted.',
                         variant: 'success'
                     }),
                 );
@@ -179,12 +185,12 @@ export default class AddAllSuggestedTasks extends LightningElement {
                 this.isTrue = false;
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error while getting Contacts',
-                        message: JSON.stringify(error),
+                        title: 'Error while deleting Program assignments',
+                        message: 'error while deleting',
                         variant: 'error'
                     }),
                 );
             });
-        }
+        
     }
 }

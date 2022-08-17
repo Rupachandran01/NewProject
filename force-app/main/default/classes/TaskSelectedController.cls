@@ -53,25 +53,25 @@ public with sharing class TaskSelectedController {
     }
 
     @AuraEnabled(cacheable = true)
-    public static List<Program_Assignment__c> fetchAssignedPrograms(Id givenProgram) {
-        /*return [ SELECT Id, Name
-                    FROM Assigned_Programs__c order by Name asc limit 15]; */
-        /*try {*/
-            /*Program__c programs = [
-                        SELECT Id, Name
-                        FROM Program__c];
-                        //WHERE Id = :givenProgram];*/
+    public static List<Program_Assignment__c> fetchAssignedPrograms(Id projectId) {
+        try {
             return [
                     SELECT Name, Program__c, Employee_Name__c
                     FROM Program_Assignment__c
-                    WHERE Program__c = :givenProgram];
-       /* } catch (Exception e) {
+                    WHERE Program__c = :projectId];
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
-        }  */
+        }  
     }
     @AuraEnabled
-    public static void deleteSelectedTasks(List<Employee_Program_Task__c> assignedPrograms) {
-        delete assignedPrograms;
+    public static void deleteSelectedTasks(List<Program_Assignment__c> assignedPrograms) {
+        try{
+            delete assignedPrograms;
+
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }  
     }
 }
 
