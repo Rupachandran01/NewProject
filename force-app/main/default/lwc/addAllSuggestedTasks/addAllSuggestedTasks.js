@@ -63,6 +63,7 @@ export default class AddAllSuggestedTasks extends LightningElement {
             this.tasks = undefined;
         }
     }
+    
     toggleNewTask() {
         this.taskShown = !this.taskShown;
     }
