@@ -1,7 +1,7 @@
 <template>
 <!--Modal and container configuration-->
     <c-modal label="Suggested Task" 
-                onclick={GetRelatedTask} 
+                onclick={toggleModal} 
                 modal-shown-override={modalShown}>
     <template if:true={tasks}>
         <lightning-card>
@@ -21,11 +21,11 @@
                                   
                 <lightning-button class="slds-p-left_small"
                                   label="New Task" 
-                                   onclick={toggleModal}>
+                                   onclick={toggleNewTask}>
                 </lightning-button>
             </div>
         </lightning-card>
-            <template if:true={modalShown}>
+            <template if:true={taskShown}>
                 <lightning-card>
                     <lightning-record-edit-form object-api-name="Training_Task__c"
                                                 onsuccess={handleSuccess}>

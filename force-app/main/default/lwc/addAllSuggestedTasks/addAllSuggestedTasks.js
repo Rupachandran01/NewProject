@@ -22,16 +22,14 @@ export default class AddAllSuggestedTasks extends LightningElement {
    
    @api recordId;
 
+    taskShown = false;
     modalShown = false;
     nameField = Name;
     tasks;
     selectedTasks = [];
     strSearchTaskName ='';
     selectedRecords = [];
-
-    
-
-    //relatedTasksResult;
+    relatedTasksResult =[];
 
    col = [
         { label: 'Name', fieldName: 'Name' },
@@ -40,7 +38,19 @@ export default class AddAllSuggestedTasks extends LightningElement {
       
     ];
 
-   /*
+/*
+    GetRelatedTask() {
+        getRelatedTask({ programId: this.recordId })
+        .then(tasks => {
+            console.log(tasks);
+            this.tasks = tasks;
+        })
+        .catch(error => {
+            console.warn(error);
+        })
+    } 
+    */
+
     @wire(getRelatedTask, {programId: '$recordId'})
     wiredRelatedTasks(result){
         this.relatedTasksResult = result;
@@ -53,18 +63,10 @@ export default class AddAllSuggestedTasks extends LightningElement {
             this.tasks = undefined;
         }
     }
-    */
-    GetRelatedTask() {
-        getRelatedTask({ programId: this.recordId })
-        .then(tasks => {
-            console.log(tasks);
-            this.tasks = tasks;
-        })
-        .catch(error => {
-            console.warn(error);
-        })
-    } 
-
+    toggleNewTask() {
+        this.taskShown = !this.taskShown;
+    }
+    
     handleRowSelection(event) {
         const selectedRows = event.detail.selectedRows;
         this.selectedTasks = [];
@@ -81,19 +83,27 @@ export default class AddAllSuggestedTasks extends LightningElement {
     handleAssignSelectedTaskToProgram() {
         assignSelectedTaskToProgram({taskIn: this.selectedTasks, programId: this.recordId})
         .then(response => {
-            console.log(selectedTasks);
-           // return refreshApex(this.relatedTasksResult);
+            
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Success!',
+                message: 'New Task created successfully!',
+                variant: 'success',
+            }));
+            return refreshApex(this.relatedTasksResult);
+
         })
         .catch(error => {
-            console.warn(error);
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Success!',
+                message: 'New Task is not successfully!',
+                variant: 'error',
+            }));
         });
     }
     
     handleSuccess(event) {
         let allModals = this.template.querySelectorAll('c-modal')[0];
         allModals.toggleModal();
-        
-
         this.dispatchEvent(new ShowToastEvent({
             title: 'Success!',
             message: 'New Task created successfully!',
