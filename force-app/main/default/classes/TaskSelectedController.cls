@@ -8,6 +8,7 @@ public with sharing class TaskSelectedController {
                                 SELECT Id, Team_Category__c
                                 FROM Program__c
                                 WHERE Id = :programId];
+
             List<Training_Task__c> Ttasks = [
                                                 SELECT Id, Name, Team_Category__c,No_of_Days_to_Complete__c
                                                 FROM Training_Task__c
@@ -15,7 +16,7 @@ public with sharing class TaskSelectedController {
             
             Ttasks =  checkDuplicateRelatedTasks(Ttasks, programId);
             return Ttasks;
-                                                                  
+
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -80,13 +81,14 @@ public with sharing class TaskSelectedController {
     public static List<Program_Assignment__c> fetchAssignedPrograms(Id projectId) {
         try {
             return [
-                    SELECT Name, Program__c, Employee_Name__c
+                    SELECT Name, Program__c, Start_Date__c,Program_Status__c 
                     FROM Program_Assignment__c
                     WHERE Program__c = :projectId];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }  
     }
+    
     @AuraEnabled
     public static void deleteSelectedTasks(List<Program_Assignment__c> assignedPrograms) {
         try{

@@ -31,7 +31,7 @@
                                                 onsuccess={handleSuccess}>
                         <lightning-input-field field-name="Name"> </lightning-input-field>
                         <lightning-input-field field-name="Team_Category__c"> </lightning-input-field>
-                        <lightning-input-field field-name="No_of_Days_to_Complete__c"> </lightning-input-field>
+                        <lightning-input-field field-name="No_of_Days_to_Complete__c"></lightning-input-field>
                         <lightning-input-field field-name="LOE_Minutes__c"> </lightning-input-field>
                         <lightning-input-field field-name="Description__c"> </lightning-input-field>
                         <lightning-input-field field-name="Task_Link__c"> </lightning-input-field>
@@ -53,8 +53,9 @@
         </template>
     </c-modal>
 
-<!--Search Funcationality-->
-    <lightning-card title="Custom Task Search Functionality in LWC" icon-name="standard:task">
+<!--Search Functionality-->
+    <lightning-card title="Custom Task Search Functionality in LWC" 
+                    icon-name="standard:task">
         <div if:true={errorMsg} style="margin-left: 3%;">
             <p style="color: red;">{errorMsg}</p>
         </div>
@@ -78,30 +79,27 @@
 
         <div if:true={searchData}>
             <lightning-datatable data={searchData} 
-                                 columns={columns} 
+                                 columns={col} 
                                  key-field="id"
                                  hide-checkbox-column="true"></lightning-datatable>
         </div>
     </lightning-card>
-<!--Mass unassign-->
-    <lightning-card title="Delete Selected Rows in Datatable" icon-name="utility:recycle_bin_full">
+    
+<!--Delete Functionality-->
+    <lightning-card title="Delete Selected Rows in Program Assignment" 
+                    icon-name="utility:recycle_bin_full">
         <div style="width: auto;">
             <template if:true={data}>
-                <lightning-layout>
-                    <lightning-layout-Item padding="around-small" size="5">
-                        <span><p>&nbsp;<b><i>Selected Records: {recordsCount}</i></b></p></span>
-                    </lightning-layout-Item>
-                    <lightning-layout-Item padding="around-small" size="7">
-                        <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue}
-                            variant="destructive" onclick={deleteRecords}>
-                        </lightning-button>
-                    </lightning-layout-Item>
-                </lightning-layout>
-                <lightning-datatable data={data} columns={columns} key-field="id" onrowselection={getSelectedRecords}>
+                <lightning-datatable data={data} 
+                                     columns={columns} 
+                                     key-field="id" 
+                                     onrowselection={getSelectedRecords}>
                 </lightning-datatable><br/>
                 <div class="slds-align_absolute-center">
-                    <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue}
-                        variant="destructive" onclick={deleteRecords}>
+                    <lightning-button label={buttonLabel} 
+                                      icon-name="utility:delete" 
+                                      variant="destructive" 
+                                      onclick={deleteRecords}>
                     </lightning-button>
                 </div>
             </template>
