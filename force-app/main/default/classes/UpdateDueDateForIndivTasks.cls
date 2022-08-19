@@ -15,7 +15,6 @@ public with sharing class UpdateDueDateForIndivTasks {
                                                                 FROM Training_Task__c
                                                                 WHERE Id IN :tasklist]);
             List<Employee_Program_Task__c> listOfAssignedTask = new List<Employee_Program_Task__c>();
-
             for(Employee_Program_Task__c empTask : employeetasks) {
             Decimal numberofDays = mapOfTask.get(empTask.Training_Task__c).No_of_Days_to_Complete__c;
             empTask.Due_Date__c = empTask.Start_Date__c.addDays(numberofDays.intValue());

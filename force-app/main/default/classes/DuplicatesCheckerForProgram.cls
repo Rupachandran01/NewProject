@@ -18,6 +18,7 @@ public with sharing class DuplicatesCheckerForProgram {
             queriedProgramSet.add(a.Program__c);
             queriedEmployeeSet.add(a.Employee_Name__c);
         }
+
         for(Program_Assignment__c ap : assignedPrograms) {
             if(queriedProgramSet.contains(ap.Program__c) && queriedEmployeeSet.contains(ap.Employee_Name__c)) {
                 ap.addError('This Program already Exists!');

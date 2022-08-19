@@ -4,11 +4,13 @@ public with sharing class UpdateAssignedTaskInProgram {
         for(Task_Assignment__c a :taskInProgram){
             programIds.add(a.Program__c);
         }
+        
         List<Program_Assignment__c> queriedProgram = [SELECT Id, Program__c, Employee_Name__c, Start_Date__c
                                                             FROM Program_Assignment__c
                                                             WHERE Program__c IN :programIds];
     
         List<Employee_Program_Task__c> listOfAssignedTask = new List<Employee_Program_Task__c>();
+
         if(queriedProgram != null){
             for(Task_Assignment__c t : taskInProgram) {
                 for(Program_Assignment__c p : queriedProgram) {
@@ -17,6 +19,7 @@ public with sharing class UpdateAssignedTaskInProgram {
                         employeeTask.Employee__c = p.Employee_Name__c;
                         employeeTask.Training_Task__c = t.Training_Task__c;
                         employeeTask.Program__c = p.Program__c;
+                        employeeTask.Program_Assignment__c = p.Id;
                         employeeTask.Due_Date__c = (p.Start_Date__c).addDays(Integer.valueOf(t.Days_Assigned_for_Task__c));
 
                         listOfAssignedTask.add(employeeTask);

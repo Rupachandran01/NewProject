@@ -9,6 +9,7 @@ public with sharing class DuplicateCheckerForTasks {
         List<Employee_Program_Task__c> queryAssignedTasks = [SELECT Training_Task__c, Employee__c
                                                         FROM Employee_Program_Task__c
                                                         WHERE Training_Task__c IN :taskSet OR Employee__c IN :employeeSet];
+        
         Set<Id> queriedTaskSet = new Set<Id>();
         Set<Id> queriedEmployeeSet = new Set<Id>();
         for(Employee_Program_Task__c e : queryAssignedTasks){

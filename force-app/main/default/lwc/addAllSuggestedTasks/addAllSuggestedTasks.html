@@ -1,8 +1,9 @@
 <template>
 <!--Modal and container configuration-->
-    <c-modal label="Suggested Task" 
-                onclick={toggleModal} 
-                modal-shown-override={modalShown}>
+    <c-modal class="slds-align_absolute-center" 
+             label="Suggested Task" 
+             onclick={toggleModal} 
+             modal-shown-override={modalShown}>
     <template if:true={tasks}>
         <lightning-card>
             <div class="slds-p-bottom_large">
@@ -54,55 +55,59 @@
     </c-modal>
 
 <!--Search Functionality-->
-    <lightning-card title="Custom Task Search Functionality in LWC" 
-                    icon-name="standard:task">
-        <div if:true={errorMsg} style="margin-left: 3%;">
-            <p style="color: red;">{errorMsg}</p>
-        </div>
+    <div class="slds-m-top_small">
+        <lightning-card title="Custom Task Search Functionality in LWC" 
+                        icon-name="standard:task">
+            <div if:true={errorMsg} style="margin-left: 3%;">
+                <p style="color: red;">{errorMsg}</p>
+            </div>
 
-        <lightning-layout multiple-rows="true" vertical-align="end">
-            <lightning-layout-item size="12" padding="around-small">
-                    <div class="slds-form-element">
-                            <div class="slds-form-element__control">
-                                    <lightning-input type="text" 
-                                                     label="Enter Task Name" 
-                                                     onchange={handleTaskName} ></lightning-input>
-                            </div>
-                        </div> 
-            </lightning-layout-item>
-            <lightning-layout-item size="12" padding="around-small">
-                    <lightning-button label="Search" 
-                                      variant="brand" 
-                                      onclick={handleSearch}></lightning-button>
+            <lightning-layout multiple-rows="true" vertical-align="end">
+                <lightning-layout-item size="12" padding="around-small">
+                        <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                        <lightning-input type="text" 
+                                                        label="Enter Task Name" 
+                                                        onchange={handleTaskName} ></lightning-input>
+                                </div>
+                            </div> 
                 </lightning-layout-item>
-            </lightning-layout><br/>
+                <lightning-layout-item size="12" padding="around-small">
+                        <lightning-button label="Search" 
+                                        variant="brand" 
+                                        onclick={handleSearch}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout><br/>
 
-        <div if:true={searchData}>
-            <lightning-datatable data={searchData} 
-                                 columns={col} 
-                                 key-field="id"
-                                 hide-checkbox-column="true"></lightning-datatable>
-        </div>
-    </lightning-card>
-    
+            <div if:true={searchData}>
+                <lightning-datatable data={searchData} 
+                                    columns={col} 
+                                    key-field="id"
+                                    hide-checkbox-column="true"></lightning-datatable>
+            </div>
+        </lightning-card>
+    </div>
+  
 <!--Delete Functionality-->
-    <lightning-card title="Delete Selected Rows in Program Assignment" 
-                    icon-name="utility:recycle_bin_full">
-        <div style="width: auto;">
-            <template if:true={data}>
-                <lightning-datatable data={data} 
-                                     columns={columns} 
-                                     key-field="id" 
-                                     onrowselection={getSelectedRecords}>
-                </lightning-datatable><br/>
-                <div class="slds-align_absolute-center">
-                    <lightning-button label={buttonLabel} 
-                                      icon-name="utility:delete" 
-                                      variant="destructive" 
-                                      onclick={deleteRecords}>
-                    </lightning-button>
-                </div>
-            </template>
-        </div>
-    </lightning-card>
+    <div class="slds-m-top_small">
+        <lightning-card title="Delete Selected Rows in Program Assignment" 
+                        icon-name="utility:recycle_bin_full">
+            <div style="width: auto;">
+                <template if:true={data}>
+                    <lightning-datatable data={data} 
+                                        columns={columns} 
+                                        key-field="id" 
+                                        onrowselection={getSelectedRecords}>
+                    </lightning-datatable><br/>
+                    <div class="slds-align_absolute-center">
+                        <lightning-button label={buttonLabel} 
+                                        icon-name="utility:delete" 
+                                        variant="destructive" 
+                                        onclick={deleteRecords}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
 </template>
