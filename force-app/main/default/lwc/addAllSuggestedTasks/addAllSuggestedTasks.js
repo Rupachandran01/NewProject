@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import getRelatedTask from '@salesforce/apex/TaskSelectedController.getRelatedTask'
 import assignSelectedTaskToProgram from '@salesforce/apex/TaskSelectedController.assignSelectedTaskToProgram'
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import Name from '@salesforce/schema/Training_Task__c.Name';
+//import Name from '@salesforce/schema/Training_Task__c.Name';
 import retriveTasks from '@salesforce/apex/TaskSelectedController.retriveTasks';
 import { refreshApex } from '@salesforce/apex';
 import fetchAssignedPrograms from '@salesforce/apex/TaskSelectedController.fetchAssignedPrograms';
@@ -26,7 +26,7 @@ export default class AddAllSuggestedTasks extends LightningElement {
     data;
     taskShown = false;
     modalShown = false;
-    nameField = Name;
+  //  nameField = Name;
     tasks;
     selectedTasks = [];
     strSearchTaskName ='';
